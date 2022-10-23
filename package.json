@@ -1,0 +1,73 @@
+{
+  "name": "express-template-restfullapi",
+  "version": "1.0.5",
+  "description": "express boilerplate template restfullapi",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "prod": "pm2 start src/index.js",
+    "prod-stop": "pm2 stop all",
+    "dev": "nodemon --max-old-space-size=2048 --legacy-watch src/index.js",
+    "test": "jest --coverage",
+    "test:watch": "jest -i --watchAll",
+    "test:coverage": "jest --coverage --detectOpenHandles",
+    "lint": "eslint --fix --ext .js",
+    "seed": "npx sequelize-cli db:seed:all",
+    "generate-seed": "npx sequelize-cli seed:generate --name demo-todo",
+    "test:load": "npx autocannon -c 10000 -d 5 -p 10 localhost:4000/v1/users"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/firmanJS/express-template.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "keywords": [
+    "expressjs",
+    "boillerplate",
+    "template",
+    "structure",
+    "api",
+    "restfullapi"
+  ],
+  "author": "firmanjs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/firmanJS/express-template/issues"
+  },
+  "homepage": "https://github.com/firmanJS/express-template#readme",
+  "devDependencies": {
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^26.6.3",
+    "node-mocks-http": "^1.11.0",
+    "sequelize-cli": "^6.3.0",
+    "supertest": "^6.1.6"
+  },
+  "dependencies": {
+    "@sentry/node": "^6.8.0",
+    "@sentry/tracing": "^6.8.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.6.0",
+    "helmet": "^3.23.3",
+    "i18n": "^0.13.3",
+    "method-override": "^3.0.0",
+    "moment": "^2.27.0",
+    "morgan": "^1.10.0",
+    "pg": "^8.7.1",
+    "pm2": "^4.5.0",
+    "sequelize": "^6.12.0-beta.3",
+    "swagger-ui-express": "^4.1.6",
+    "uuid": "^8.3.2",
+    "xss-clean": "^0.1.1"
+  }
+}

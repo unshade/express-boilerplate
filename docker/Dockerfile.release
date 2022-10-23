@@ -1,0 +1,120 @@
+# # Build Stage 1
+# # This build created a staging docker image 
+# #
+# FROM node:14-alpine AS appbuild
+
+# LABEL Maintainer="Firman Abdul Hakim <fimzhakim@gmail.com>" \
+#       Description="Nodejs Expressjs"
+
+# WORKDIR /usr/src/app
+
+# COPY package.json ./
+
+# # COPY .babelrc ./
+# RUN yarn install --silent && yarn cache clean --all
+
+# COPY ./src ./src
+
+# RUN ["yarn", "dev"]
+
+# # Build Stage 2
+# # This build takes the production build from staging build
+# #
+# FROM node:14-alpine
+
+# WORKDIR /usr/src/app
+
+# COPY package.json ./
+
+# # COPY .babelrc ./
+# RUN npm install
+
+# COPY --from=appbuild /usr/src/app/dist ./dist
+
+# EXPOSE 4002
+
+# CMD yarn start
+
+# Build Stage 1
+# This build created a staging docker image 
+#
+FROM node:16-alpine AS appbuild
+
+LABEL Maintainer="Firman Abdul Hakim <fimzhakim@gmail.com>" \
+      Description="Nodejs Expressjs"
+
+WORKDIR /usr/apps
+
+COPY package.json ./
+
+# COPY .babelrc ./
+RUN yarn install
+
+#copy source
+COPY . .
+
+
+# Build Stage 2
+# This build takes the production build from staging build
+#
+FROM node:16-alpine
+
+WORKDIR /usr/apps
+
+COPY package.json ./
+
+# COPY .babelrc ./
+RUN yarn install
+
+COPY --from=appbuild /usr/apps/ ./
+
+RUN ["yarn", "dev"]
+
+# new
+# Set node version image for application
+# FROM node:14-alpine
+
+# # Set working directory for application
+# WORKDIR /usr/src/app
+
+# # Update packages and install dependency packages for services
+# RUN apt-get update \
+#   && apt-get dist-upgrade -y \
+#   && apt-get clean
+
+# # Copy package.json and any config to working directory
+# COPY package*.json \
+#   .env /usr/src/app/
+
+# # Copy all file to working directory
+# COPY . /usr/src/app
+
+# # Install dependencies package for applications use
+# RUN cd /usr/src/app \
+#   &&  npm install \
+#   && npm audit fix
+
+# # Run application
+# CMD npm start
+
+
+#new 30mb
+# FROM node:16-alpine as base
+# WORKDIR /src
+# COPY package*.json ./
+
+# FROM base as production
+# ENV NODE_ENV=production
+# RUN npm ci
+# COPY ./*.js ./
+# CMD ["node", "consumer.js"]
+
+# FROM base as dev
+# RUN apk add --no-cache bash
+# RUN wget -O /bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
+# RUN chmod +x /bin/wait-for-it.sh
+
+# ENV NODE_ENV=development
+# RUN npm install
+# COPY ./*.js ./
+# CMD ["node", "consumer.js"]
